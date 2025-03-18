@@ -31,6 +31,7 @@ class MainActivity : ComponentActivity() {
                     ){
                         composable<MapScreenDes> (){
 
+
                         }
 
                         composable<CameraScreenDes> {
