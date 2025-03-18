@@ -41,7 +41,6 @@ val latLngArray =  listOf(
 fun MapSection(
     modifier:Modifier = Modifier
 ){
-    val coroutineScope = rememberCoroutineScope()
     val activity = LocalActivity.current as ComponentActivity
 
     val marker = rememberUpdatedMarkerState()
