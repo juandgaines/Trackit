@@ -5,6 +5,8 @@ plugins {
     alias(libs.plugins.dagger.hilt)
     alias(libs.plugins.ksp)
     alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.mapsplatform.secrets.plugin)
+
 }
 
 android {
