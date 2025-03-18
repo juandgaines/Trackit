@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.google.maps.android.compose.GoogleMap
 import com.juandgaines.trackit.ui.theme.TrackitTheme
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.serialization.Serializable
@@ -30,8 +31,9 @@ class MainActivity : ComponentActivity() {
                         startDestination = MapScreenDes
                     ){
                         composable<MapScreenDes> (){
-
-
+                            GoogleMap(
+                                modifier = Modifier.fillMaxSize()
+                            )
                         }
 
                         composable<CameraScreenDes> {
