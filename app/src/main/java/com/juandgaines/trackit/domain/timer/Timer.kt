@@ -28,4 +28,15 @@ object Timer {
             }
         }
     }
+
+    fun counterFlow(): Flow<Int> {
+        return flow {
+            var counter = 0
+            while(true){
+                delay(100)
+                emit(counter)
+                counter++
+            }
+        }
+    }
 }

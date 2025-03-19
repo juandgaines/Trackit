@@ -22,9 +22,12 @@ import com.juandgaines.trackit.presentation.maps.MapSection
 import com.juandgaines.trackit.ui.theme.TrackitTheme
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.buffer
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.combineTransform
+import kotlinx.coroutines.flow.conflate
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.fold
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.reduce
@@ -34,6 +37,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.time.delay
 import kotlinx.serialization.Serializable
 import kotlin.time.Duration
+import kotlin.time.Duration.Companion.milliseconds
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -81,6 +85,16 @@ class MainActivity : ComponentActivity() {
             }.onEach {
                 Log.d("FlowWithZip", "Time interval ${it.first.inWholeSeconds} s, Random number ${it.second}")
             }.launchIn(lifecycleScope)
+
+        lifecycleScope.launch {
+            Timer.counterFlow()
+                .conflate()
+                .collect{
+                    kotlinx.coroutines.delay(700)
+                    Log.d("FlowWithBackPressure", "Time interval ${it} s")
+                }
+            }
+
 
         stateChannel.flatMapLatest{ channel->
             if (channel){
