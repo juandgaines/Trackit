@@ -13,29 +13,39 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
-import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.CameraUpdate
+import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.LatLngBounds
 import com.google.maps.android.compose.GoogleMap
+import com.google.maps.android.compose.MapEffect
 import com.google.maps.android.compose.MapProperties
 import com.google.maps.android.compose.MapUiSettings
+import com.google.maps.android.compose.MapsComposeExperimentalApi
 import com.google.maps.android.compose.MarkerComposable
 import com.google.maps.android.compose.rememberUpdatedMarkerState
-import kotlinx.coroutines.delay
 
+val latLngArray =  listOf(
+    LatLng(4.6547591408952185, -74.05578687079682),
+    LatLng(4.656732, -74.057851),
+    LatLng(4.668311, -74.074094),
+)
+
+@OptIn(MapsComposeExperimentalApi::class)
 @Composable
 fun MapSection(
     modifier:Modifier = Modifier
 ){
-    val coroutineScope = rememberCoroutineScope()
     val activity = LocalActivity.current as ComponentActivity
 
     val marker = rememberUpdatedMarkerState()
+
+
 
     LaunchedEffect(true) {
 
@@ -59,6 +69,22 @@ fun MapSection(
     ){
 
         PolylinesSections()
+
+        MapEffect(latLngArray) { map ->
+
+            val boundariesBuilder = LatLngBounds.builder()
+            latLngArray.forEach {
+                boundariesBuilder.include(it)
+            }
+
+            map.moveCamera(
+                CameraUpdateFactory.newLatLngBounds(
+                    boundariesBuilder.build(),
+                    100
+                )
+            )
+
+        }
 
         MarkerComposable (
             state = marker
