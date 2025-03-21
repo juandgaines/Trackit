@@ -37,11 +37,6 @@ import com.google.maps.android.compose.rememberUpdatedMarkerState
 import com.juandgaines.trackit.domain.location.Location
 import com.juandgaines.trackit.domain.location.LocationWithTimestamp
 
-val latLngArray =  listOf(
-    LatLng(4.6547591408952185, -74.05578687079682),
-    LatLng(4.656732, -74.057851),
-    LatLng(4.668311, -74.074094),
-)
 
 @OptIn(MapsComposeExperimentalApi::class)
 @Composable
@@ -49,7 +44,6 @@ fun MapSection(
     modifier:Modifier = Modifier,
     currentLocation: Location?,
     isTrackingFinished: Boolean,
-    selectedLocation: LocationWithTimestamp? = null,
     locations: List<List<LocationWithTimestamp>>,
 ){
     val activity = LocalActivity.current as ComponentActivity
@@ -81,6 +75,15 @@ fun MapSection(
         }
     }
 
+    LaunchedEffect(currentLocation, isTrackingFinished) {
+        if(currentLocation != null && !isTrackingFinished) {
+            val latLng = LatLng(currentLocation.lat, currentLocation.long)
+            cameraPositionState.animate(
+                CameraUpdateFactory.newLatLngZoom(latLng, 17f)
+            )
+        }
+    }
+
     GoogleMap(
         modifier = modifier,
         uiSettings = MapUiSettings(
@@ -97,20 +100,25 @@ fun MapSection(
 
         PolylinesSections()
 
-        MapEffect(latLngArray) { map ->
+        MapEffect(locations) { map ->
+
 
             val boundariesBuilder = LatLngBounds.builder()
-            latLngArray.forEach {
-                boundariesBuilder.include(it)
+            locations.flatten().forEach { location ->
+                boundariesBuilder
+                    .include(
+                        LatLng(
+                            location.location.lat,
+                            location.location.long,
+                        )
+                    )
             }
-
             map.moveCamera(
                 CameraUpdateFactory.newLatLngBounds(
                     boundariesBuilder.build(),
                     100
                 )
             )
-
         }
 
         if(!isTrackingFinished && currentLocation != null) {
