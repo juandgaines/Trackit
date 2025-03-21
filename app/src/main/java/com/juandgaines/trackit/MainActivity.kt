@@ -67,13 +67,6 @@ class MainActivity : ComponentActivity() {
                         startDestination = MapScreenDes
                     ){
                         composable<MapScreenDes> (){
-                            Scaffold {
-                                MapSection(
-                                    modifier = Modifier
-                                        .fillMaxSize()
-                                        .padding(it)
-                                )
-                            }
 
                         }
 
