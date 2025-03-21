@@ -15,10 +15,16 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.juandgaines.trackit.domain.location.LocationObserver
+import com.juandgaines.trackit.domain.location.LocationTracker
 import com.juandgaines.trackit.presentation.maps.MapSection
 import com.juandgaines.trackit.ui.theme.TrackitTheme
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.serialization.Serializable
 import javax.inject.Inject
@@ -27,7 +33,7 @@ import javax.inject.Inject
 class MainActivity : ComponentActivity() {
 
     @Inject
-    lateinit var locationObserver: LocationObserver
+    lateinit var locationTracker: LocationTracker
 
     private val stateChannel = MutableStateFlow(false)
 
@@ -35,11 +41,21 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
-        lifecycleScope.launch {
-            locationObserver.observeLocation(1000).collect{
-                Log.d("LocationDevice", "LAt: ${it.lat} Long: ${it.long}")
-            }
+        locationTracker.locationData.onEach {
+            Log.d("LocationData", it.toString())
         }
+            .flowOn(Dispatchers.IO)
+            .launchIn(lifecycleScope)
+
+        lifecycleScope.launch {
+
+            delay(2000)
+            locationTracker.startObservingLocation()
+            delay(1000)
+            locationTracker.setIsTracking(true)
+
+        }
+
         setContent {
             val navController = rememberNavController()
             TrackitTheme {
