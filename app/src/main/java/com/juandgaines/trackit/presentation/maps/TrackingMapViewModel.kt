@@ -103,6 +103,7 @@ class TrackingMapViewModel @Inject constructor(
                 TrackingIntent.ResumeTracking ->
                 {
                     shouldTrack.value = true
+                    locationTracker.setIsTracking(true)
                 }
             }
         }

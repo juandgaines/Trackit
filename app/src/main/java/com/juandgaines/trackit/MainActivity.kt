@@ -10,13 +10,16 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.juandgaines.trackit.domain.location.LocationObserver
 import com.juandgaines.trackit.domain.location.LocationTracker
+import com.juandgaines.trackit.presentation.maps.MapScreenRoot
 import com.juandgaines.trackit.presentation.maps.MapSection
+import com.juandgaines.trackit.presentation.maps.TrackingMapViewModel
 import com.juandgaines.trackit.ui.theme.TrackitTheme
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
@@ -41,20 +44,6 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
-        locationTracker.locationData.onEach {
-            Log.d("LocationData", it.toString())
-        }
-            .flowOn(Dispatchers.IO)
-            .launchIn(lifecycleScope)
-
-        lifecycleScope.launch {
-
-            delay(2000)
-            locationTracker.startObservingLocation()
-            delay(1000)
-            locationTracker.setIsTracking(true)
-
-        }
 
         setContent {
             val navController = rememberNavController()
@@ -67,7 +56,13 @@ class MainActivity : ComponentActivity() {
                         startDestination = MapScreenDes
                     ){
                         composable<MapScreenDes> (){
-
+                            val viewModel = hiltViewModel<TrackingMapViewModel>()
+                            MapScreenRoot(
+                                trackingViewModel = viewModel,
+                                navigateToCameraScreen = {
+                                    navController.navigate(CameraScreenDes)
+                                }
+                            )
                         }
 
                         composable<CameraScreenDes> {

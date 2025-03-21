@@ -99,9 +99,6 @@ class LocationTracker @Inject constructor(
             .launchIn(applicationScope)
 
 
-        locationData
-            .launchIn(applicationScope)
-
         currentLocation
             .filterNotNull()
             .combineTransform(_isTracking) { location, isTracking ->
