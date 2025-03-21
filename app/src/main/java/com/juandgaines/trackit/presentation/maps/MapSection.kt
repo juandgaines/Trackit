@@ -64,6 +64,7 @@ fun MapSection(
     }
 
     GoogleMap(
+        cameraPositionState = cameraPositionState,
         modifier = modifier,
         uiSettings = MapUiSettings(
             zoomControlsEnabled = false,
@@ -81,25 +82,6 @@ fun MapSection(
 
         MapEffect(locations) { map ->
 
-            if (locations.isNotEmpty() && isTrackingFinished){
-                val boundariesBuilder = LatLngBounds.builder()
-                locations.flatten().forEach { location ->
-                    boundariesBuilder
-                        .include(
-                            LatLng(
-                                location.location.lat,
-                                location.location.long,
-                            )
-                        )
-                }
-
-                map.moveCamera(
-                    CameraUpdateFactory.newLatLngBounds(
-                        boundariesBuilder.build(),
-                        100
-                    )
-                )
-            }
         }
 
         if(!isTrackingFinished && currentLocation != null) {
