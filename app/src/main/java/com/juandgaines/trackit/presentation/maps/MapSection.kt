@@ -98,7 +98,7 @@ fun MapSection(
         )
     ){
 
-        PolylinesSections()
+        PolylinesSections(locations)
 
         MapEffect(locations) { map ->
 
