@@ -1,3 +1,20 @@
 <resources>
     <string name="app_name">Trackit</string>
+    <string name="camera">Camera</string>
+    <string name="active_run">Tracking location</string>
+    <string name="stop">Stop</string>
+    <string name="permissions_required">Permissions Required</string>
+    <string name="location_permission_required">Location Permission Required</string>
+    <string name="notification_permission_required">Notification Permission Required</string>
+    <string name="camera_permission_required">Camera Permission Required</string>
+    <string name="location_and_notification_rationale">This app needs location and notification permission to work in order to track location through a notification</string>
+    <string name="location_rationale">This app needs location to track the current location to be depicted in the Map</string>
+    <string name="notification_rationale">This app needs notification permission to show a location notification</string>
+    <string name="camera_rationale">This app needs camera permission to add images to the current locations</string>
+    <string name="grant_permission">Grant Permission</string>
+    <string name="grant_permissions">Grant Permissions</string>
+    <string name="not_now">Not Now</string>
+    <string name="camera_permission">Camera permission is required to take photos</string>
+    <string name="request_permission">Request permission</string>
+    <string name="camera_permission_denied">Permission denied. Go to settings to change the app permissions.</string>
 </resources>
