@@ -40,6 +40,7 @@ fun MapSection(
     currentLocation: Location?,
     isTrackingFinished: Boolean,
     locations: List<List<LocationWithTimestamp>>,
+    selectedLocation: LocationWithTimestamp? = null,
     onAction: (TrackingIntent) -> Unit
 ){
     val activity = LocalActivity.current as ComponentActivity
@@ -62,6 +63,16 @@ fun MapSection(
                 CameraUpdateFactory.newLatLngZoom(latLng, 17f)
             )
         }
+    }
+
+    selectedLocation?.let {
+        PhotoGalleryDialog(
+            locationWithPhotos = selectedLocation,
+            onDismiss = {
+                onAction(TrackingIntent.DismissDialogLocation)
+                onAction(TrackingIntent.ResumeTracking)
+            }
+        )
     }
 
     GoogleMap(
@@ -109,5 +120,10 @@ fun MapSection(
                 }
             }
         }
+
+        ClusterSection(
+            locations = locations,
+            onAction = onAction
+        )
     }
 }

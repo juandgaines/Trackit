@@ -131,6 +131,20 @@ class TrackingMapViewModel @Inject constructor(
                     shouldTrack.value = false
                     _event.send(TrackingEvents.NavigateToCamera)
                 }
+
+                TrackingIntent.DismissDialogLocation ->
+                    updateState {
+                        it.copy(
+                            selectedLocation = null
+                        )
+                    }
+                is TrackingIntent.SelectLocation -> {
+                    updateState {
+                        it.copy(
+                            selectedLocation = intent.location
+                        )
+                    }
+                }
             }
         }
 
