@@ -174,6 +174,7 @@ fun MapScreen(
                 currentLocation = state.location,
                 isTrackingFinished = false,
                 locations = state.trackingDataSegments,
+                onAction = onAction,
                 modifier = Modifier.fillMaxSize()
             )
         }
