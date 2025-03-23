@@ -40,6 +40,7 @@ fun MapSection(
     currentLocation: Location?,
     isTrackingFinished: Boolean,
     locations: List<List<LocationWithTimestamp>>,
+    onAction: (TrackingIntent) -> Unit
 ){
     val activity = LocalActivity.current as ComponentActivity
 
@@ -86,7 +87,11 @@ fun MapSection(
 
         if(!isTrackingFinished && currentLocation != null) {
             MarkerComposable(
-                state = marker
+                state = marker,
+                onClick = {
+                    onAction(TrackingIntent.GoToCamera)
+                    true
+                }
             ) {
                 Box(
                     modifier = Modifier

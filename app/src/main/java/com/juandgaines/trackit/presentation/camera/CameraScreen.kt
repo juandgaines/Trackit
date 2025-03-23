@@ -53,13 +53,12 @@ import com.juandgaines.trackit.presentation.utils.shouldShowCameraPermissionRati
 
 @Composable
 fun CameraScreenRoot() {
+
     val viewModel: CameraViewModel = hiltViewModel()
-    
+
     // Collect UI state
     val uiState by viewModel.uiState.collectAsState()
     val previewPhoto by viewModel.previewPhoto.collectAsState()
-
-
     val context = LocalContext.current
     val activity = LocalActivity.current as ComponentActivity
     val permissionLauncherCamera = rememberLauncherForActivityResult(
