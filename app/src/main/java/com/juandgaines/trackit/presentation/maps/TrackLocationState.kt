@@ -9,4 +9,6 @@ data class TrackLocationState(
     val location: Location? = null,
     val selectedLocation: LocationWithTimestamp? = null,
     val trackingDataSegments:List<List<LocationWithTimestamp>> = emptyList(),
+    val showLocationRationale: Boolean = false,
+    val showNotificationRationale: Boolean = false,
 )

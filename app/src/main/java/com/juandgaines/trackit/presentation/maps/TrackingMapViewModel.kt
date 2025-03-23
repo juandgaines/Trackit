@@ -25,7 +25,6 @@ class TrackingMapViewModel @Inject constructor(
 
     private val _state = MutableStateFlow(TrackLocationState())
 
-
     private val isAllowedToTrack = combine(
         hasLocationPermission,
         shouldTrack
@@ -104,6 +103,23 @@ class TrackingMapViewModel @Inject constructor(
                 {
                     shouldTrack.value = true
                     locationTracker.setIsTracking(true)
+                }
+
+                is TrackingIntent.SubmitLocationPermissionInfo -> {
+                    hasLocationPermission.value = intent.acceptedLocationPermission
+                    updateState {
+                        it.copy(
+                            showLocationRationale = intent.showLocationRationale
+                        )
+                    }
+                }
+
+                is TrackingIntent.SubmitNotificationPermissionInfo -> {
+                    updateState {
+                        it.copy(
+                            showNotificationRationale = intent.showNotificationRationale
+                        )
+                    }
                 }
             }
         }
