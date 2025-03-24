@@ -24,6 +24,8 @@
         <meta-data android:name="com.google.android.geo.API_KEY"
             android:value="${MAPS_API_KEY}" />
 
+        <service android:name=".TrackitService"/>
+
         <activity
             android:name=".MainActivity"
             android:exported="true"
