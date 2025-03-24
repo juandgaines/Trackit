@@ -172,6 +172,7 @@ fun MapScreen(
         ){
             MapSection(
                 currentLocation = state.location,
+                selectedLocation = state.selectedLocation,
                 isTrackingFinished = false,
                 locations = state.trackingDataSegments,
                 onAction = onAction,

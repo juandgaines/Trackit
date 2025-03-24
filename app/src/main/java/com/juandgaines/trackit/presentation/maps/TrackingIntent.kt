@@ -1,5 +1,7 @@
 package com.juandgaines.trackit.presentation.maps
 
+import com.juandgaines.trackit.domain.location.LocationWithTimestamp
+
 sealed interface TrackingIntent {
 
     data class SubmitLocationPermissionInfo(
@@ -17,4 +19,7 @@ sealed interface TrackingIntent {
     data object PauseTrack: TrackingIntent
 
     data object GoToCamera: TrackingIntent
+
+    data class SelectLocation(val location: LocationWithTimestamp): TrackingIntent
+    data object DismissDialogLocation: TrackingIntent
 }
