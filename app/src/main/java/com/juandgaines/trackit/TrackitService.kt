@@ -10,6 +10,7 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.TaskStackBuilder
 import androidx.core.content.getSystemService
 import androidx.core.net.toUri
+import com.juandgaines.trackit.data.StopReceiver
 import com.juandgaines.trackit.domain.location.LocationTracker
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
@@ -68,10 +69,22 @@ class TrackitService: Service() {
                 getPendingIntent(0, PendingIntent.FLAG_IMMUTABLE)
             }
 
+            val stopIntent = Intent(applicationContext, StopReceiver::class.java).apply {
+                action = StopReceiver.ACTION_STOP
+            }
+            val stopPendingIntent = PendingIntent.getBroadcast(applicationContext, 0, stopIntent, PendingIntent.FLAG_IMMUTABLE)
+
+
+
 
             val notification = baseNotification
                 .setContentText("00:00:00")
                 .setContentIntent(pendingIntent)
+                .addAction(
+                    R.drawable.ic_stop,
+                    applicationContext.getString(R.string.stop),
+                    stopPendingIntent
+                )
                 .build()
 
             startForeground(1, notification)
