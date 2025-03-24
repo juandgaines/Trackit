@@ -17,6 +17,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.juandgaines.trackit.domain.location.LocationObserver
 import com.juandgaines.trackit.domain.location.LocationTracker
+import com.juandgaines.trackit.presentation.camera.CameraScreenRoot
 import com.juandgaines.trackit.presentation.maps.MapScreenRoot
 import com.juandgaines.trackit.presentation.maps.MapSection
 import com.juandgaines.trackit.presentation.maps.TrackingMapViewModel
@@ -66,7 +67,7 @@ class MainActivity : ComponentActivity() {
                         }
 
                         composable<CameraScreenDes> {
-
+                            CameraScreenRoot()
                         }
                     }
                 }

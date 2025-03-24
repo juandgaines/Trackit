@@ -2,9 +2,7 @@ package com.juandgaines.trackit.presentation.maps
 
 import android.Manifest
 import android.content.Context
-import android.content.Intent
 import android.os.Build
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.LocalActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -41,6 +39,14 @@ fun MapScreenRoot(
     navigateToCameraScreen: () -> Unit
 ){
     val state by trackingViewModel.state.collectAsState()
+
+    LaunchedEffect(key1 = true) {
+        trackingViewModel.events.collect{ event->
+            when(event){
+                is TrackingEvents.NavigateToCamera -> navigateToCameraScreen()
+            }
+        }
+    }
 
     MapScreen(
         state = state,
@@ -168,6 +174,7 @@ fun MapScreen(
                 currentLocation = state.location,
                 isTrackingFinished = false,
                 locations = state.trackingDataSegments,
+                onAction = onAction,
                 modifier = Modifier.fillMaxSize()
             )
         }

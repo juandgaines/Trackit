@@ -15,4 +15,6 @@ sealed interface TrackingIntent {
     data object StartTracking: TrackingIntent
     data object ResumeTracking: TrackingIntent
     data object PauseTrack: TrackingIntent
+
+    data object GoToCamera: TrackingIntent
 }
