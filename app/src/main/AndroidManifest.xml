@@ -9,6 +9,8 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
     <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_LOCATION"/>
     <application
         android:allowBackup="true"
         android:name="com.juandgaines.TrackitApplication"
@@ -24,7 +26,9 @@
         <meta-data android:name="com.google.android.geo.API_KEY"
             android:value="${MAPS_API_KEY}" />
 
-        <service android:name=".TrackitService"/>
+        <service android:name=".TrackitService"
+            android:foregroundServiceType="location"
+            />
 
         <activity
             android:name=".MainActivity"
